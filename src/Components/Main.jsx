@@ -24,20 +24,28 @@ function Main() {
       const [loanamount,setLoanAmount]=useState('');
       const [tenure,setTenure]=useState('');
       const [intrest,setIntrest]=useState('');
+      const [emiamount,setEmiAmount]=useState(0);
       const calculate=(e)=>{
         console.log(loanamount,tenure,intrest);
         const monthlyInterst=(intrest/12)/100;
         console.log(monthlyInterst);
         const emi=(loanamount*monthlyInterst*Math.pow(1+monthlyInterst,tenure))/(Math.pow(1+monthlyInterst,tenure)-1)
         console.log(emi.toFixed(2));
-        document.getElementById('emi').innerHTML=`₹${emi.toFixed(2)}`
+        setEmiAmount(emi.toFixed(2))
+      
         const intr=(emi*tenure)-loanamount
         const total=intr+loanamount
-        document.getElementById('intrest').innerHTML=`₹${intr.toFixed(2)}`
+        
         
 
 
 
+      }
+      const reset=()=>{
+        setLoanAmount('')
+        setIntrest('')
+        setTenure('')
+        setEmiAmount(0)
       }
   return (
     <div className='container'>
@@ -46,17 +54,17 @@ function Main() {
 
         </h1>
         <div className="input_box">
-        <TextField style={{width:'500px',margin:'20px'}} onChange={(e)=>setLoanAmount(e.target.value)} id="filled-basic" label="Loan Amount" variant="filled" />
-        <TextField style={{width:'500px',margin:'20px'}} onChange={(e)=>setTenure(e.target.value)} id="filled-basic" label="Loan Tenure" variant="filled" />
-        <TextField style={{width:'500px',margin:'20px'}} onChange={(e)=>setIntrest(e.target.value)} id="filled-basic" label="Interest Rate in %" variant="filled" />
+        <TextField value={loanamount} style={{width:'500px',margin:'20px'}} onChange={(e)=>setLoanAmount(e.target.value)} id="filled-basic" label="Loan Amount" variant="filled" />
+        <TextField value={tenure} style={{width:'500px',margin:'20px'}} onChange={(e)=>setTenure(e.target.value)} id="filled-basic" label="Loan Tenure" variant="filled" />
+        <TextField value={intrest} style={{width:'500px',margin:'20px'}} onChange={(e)=>setIntrest(e.target.value)} id="filled-basic" label="Interest Rate in %" variant="filled" />
         <div>
         <Button style={{background:theme.palette.secondary.light,width:'200px',margin:'10px'}} onClick={calculate}  variant="contained">Calculate</Button>
-        <Button style={{background:theme.palette.secondary.light,width:'200px',margin:'10px'}} variant="contained">Reset</Button>
+        <Button style={{background:theme.palette.secondary.light,width:'200px',margin:'10px'}} onClick={reset} variant="contained">Reset</Button>
         </div>
 
         </div>
         <div className="putput">
-            <h2 style={{color:theme.palette.secondary.main}}>Your Monthly EMI :<span id='emi'></span></h2>
+            <h2 style={{color:theme.palette.secondary.main}}>Your Monthly EMI :<span id='emi'>{emiamount}</span></h2>
             
         </div>
         
